@@ -19,7 +19,7 @@ hdfs dfs -put ./inputfilename /
 ```
 hdfs dfs -get /output/filename
 ```
-## Q1mapper & Q1Reducer (Distributed Construction of the Inverted Index)
+## q1mapper & q1Reducer (Distributed Construction of the Inverted Index)
 original file provided by Kaggle ([*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json))
 Given a collection of businesses, an inverted index is a dictionary where each category is associated with a list of the business ids (comma-separated) that belong to that category. See the example below:
 
@@ -38,31 +38,14 @@ For example:
 ```
 $ yarn jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar -files q1mapper.py,q1reducer.py -mapper ./q1mapper.py -reducer ./q1reducer.py -input /yelp_academic_dataset_business.json -output /output
 ```
-The original file provided by Kaggle ([*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json)) will be used for evaluation.
 
-## Q2. Distributed Computation of Frequencies (25%)
-In this question, your task is to write two Python scripts (***q2mapper.py*** and ***q2reducer.py***) that implement a MapReduce algorithm for computing frequencies. For a given collection of Yelp user data ([*yelp_academic_dataset_user.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_user.json)), the algorithm computes the percent proportion of Yelp accounts created in each month (irrespective of the year). For example, the input dataset contains four users who joined Yelp on 2010-01-01, 2011-02-01, 2018-03-01, and 2018-04-01, respectively. In this case, the percent proportions should be 25% for January, 25% for February, 25% for March, 25% for April, and 0% for the other months. The output of the MapReduce job should be one line per pair of values separated by **a tab character** (\t) as follows:
+## q2mapper & q2reducer (Distributed Computation of Frequencies)
+Given collection of Yelp user data ([*yelp_academic_dataset_user.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_user.json)), the algorithm computes the percent proportion of Yelp accounts created in each month (irrespective of the year). The output of the MapReduce job as follows:
 ```
 month(integer)	proportion%
 ```
-For example:
-```
-1	1.23%
-2	2.34%
-3	3.45%
-4	4.56%
-5	5.67%
-6	6.78%
-7	7.89%
-8	8.9%
-9	9.1%
-10	10.24%
-11	20.48%
-12	19.36%	
-```
-Due to rounding, the percentages may not add up to 100%. 
 
-Your script should be run as follows:
+Run the script as follows:
 ```
 $ yarn jar /path-to-jar/hadoop-streaming-3.3.1.jar -files q2mapper.py,q2reducer.py -mapper /path-to-mapper/q2mapper.py -reducer /path-to-reducer/q2reducer.py -input /path-to-json-in-hdfs/yelp_academic_dataset_user.json -output /path-to-directory-in-hdfs/output
 ```
@@ -70,8 +53,6 @@ For example:
 ```
 $ yarn jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar -files q2mapper.py,q2reducer.py -mapper ./q2mapper.py -reducer ./q2reducer.py -input /yelp_academic_dataset_user.json -output /output
 ```
-The original file provided by Kaggle ([*yelp_academic_dataset_user.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_user.json)) will be used for evaluation.
-
 
 ## Q3. Distributed Computation of the Top-k Reviews (25%)
 Yelp users can vote a review as useful, funny, or cool (UFC). The total number of UFC votes of a review is the sum of useful, funny, and cool votes it has received. For example, a review has received 10 useful votes, 20 funny votes, and 30 cool votes. In this case, the total number of UFC votes is 60 for this review. For a given collection of Yelp review data ([*yelp_academic_dataset_review.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_review.json)), your task is to write two Python scripts (***q3mapper.py*** and ***q3reducer.py***) that implement a MapReduce algorithm to find the **top 4415** reviews with the most UFC votes in descending order (from the most UFC votes to the least). If there are multiple reviews with the same number of UFC votes, they should be sorted in descending order according to the date created (from the most recently created to the least). The output of the MapReduce job should be one line per pair of values separated by **a tab character** (\t) as follows:
