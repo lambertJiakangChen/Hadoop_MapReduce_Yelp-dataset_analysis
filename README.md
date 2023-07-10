@@ -15,7 +15,7 @@ There are four MapReduce algorithms in this project. The first set of scripts co
 ```
 hdfs dfs -put ./inputfilename /
 ```
-* Copy back to local file system with command as follow
+* Copy back the result to local file system with command as follow
 ```
 hdfs dfs -get /output/filename
 ```
