@@ -72,7 +72,7 @@ $ yarn jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar -files 
 
 ## Q4. Distributed Generation of Checkin Logs (25%)
 Original files provided by Kaggle ([*yelp_academic_dataset_checkin.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_checkin.json) and [*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json)).
-MapReduce algorithm generates check-in logs in a distributed manner. Each line of the check-in logs should contain a unique identifier (UID), the timestamp of the check-in, and the name of the business. The UID is a **random-generated unique string with 22 characters** including uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), underscore (_), and dash (-). The output of the MapReduce job is formatted as follows:
+MapReduce algorithm generates check-in logs in a distributed manner. Each line of the check-in logs contains a unique identifier (UID), the timestamp of the check-in, and the name of the business. The UID is a **random-generated unique string with 22 characters** including uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), underscore (_), and dash (-). The output of the MapReduce job is formatted as follows:
 
 ```
 uid	timestamp	business_name
