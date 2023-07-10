@@ -13,7 +13,7 @@ There are four MapReduce algorithms in this project. The first set of scripts co
 ```
 docker-compose up
 ```
-* Get the container ID and execute in bash:
+* Get the container ID of the resource manager and execute in bash:
 ```
 docker ps
 
