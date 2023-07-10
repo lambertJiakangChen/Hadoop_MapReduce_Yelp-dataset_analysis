@@ -11,14 +11,21 @@ There are four MapReduce algorithms in this project. The first set of scripts co
 * Change to CRLF line terminators for Windows.
 * You need Docker installed on your local machine to run this project in the Docker-based Hadoop environment.
 * The scripts are executed in a Hadoop cluster (Apache Hadoop 3.3.1).
-
+* original file provided by Kaggle with command as follow to copy to HDFS
+```
+hdfs dfs -put ./inputfilename /
+```
+* Copy back to local file system with command as follow
+```
+hdfs dfs -get /output/filename
+```
 ## Q1mapper & Q1Reducer (Distributed Construction of the Inverted Index)
 original file provided by Kaggle ([*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json))
 Given a collection of businesses, an inverted index is a dictionary where each category is associated with a list of the business ids (comma-separated) that belong to that category. See the example below:
 
 ![Inverted index](Q1.png)
 
-the algorithm computes the inverted index of the categories to businesses that are **open on the weekend** (Saturdays, Sundays, or both). The output of the MapReduce job should consist of a number of lines in the following format:
+the algorithm computes the inverted index of the categories to businesses that are **open on the weekend** (Saturdays, Sundays, or both). The output of the MapReduce job consists of a number of lines as follows:
 ```
 category	[id1, id2, id3, id4]
 ```
