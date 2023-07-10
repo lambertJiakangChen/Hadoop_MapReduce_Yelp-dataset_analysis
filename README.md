@@ -9,7 +9,16 @@ There are four MapReduce algorithms in this project. The first set of scripts co
 * You may clone this repository to your local directory. 
 * Make sure your version Python >= 3.7.0.
 * Change to CRLF line terminators for Windows.
-* You need Docker installed on your local machine to run this project in the Docker-based Hadoop environment.
+* You need Docker installed on your local machine to run this project in the Docker-based Hadoop environment. With command as follow
+```
+docker-compose up
+```
+* Get the container ID and execute in bash:
+```
+docker ps
+
+docker exec -it containerID /bin/bash
+```
 * The scripts are executed in a Hadoop cluster (Apache Hadoop 3.3.1).
 * original file provided by [Kaggle](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3) with command as follow to copy to HDFS
 ```
