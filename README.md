@@ -5,76 +5,25 @@ The dataset can be found and downloaded [here](https://www.kaggle.com/yelp-datas
 
 There are four MapReduce algorithms in this project. The first set of scripts constructs an inverted index of the business categories; the second set computes frequency distributions about users; the third set finds top-K records; the fourth set analyzes the relationships between check-ins and businesses.
 
-## Implementation
-* You may clone this repository and implement your solution in the corresponding files. 
-* The three lines in the *info.txt* file include information about you (first name, last name, and 9-digit student ID). Please update the *info.txt* file accordingly. For example, if your name is *Foo Bar* and your student ID is *123456789*. The *info.txt* file should be as follows:
-    ```
-    Foo
-    Bar
-    123456789
-    ```
-* All scripts are to be written using Python >= 3.7.0.
-* You should use LF line terminators in your scripts.
-* You may NOT change the shebang line(`#!/usr/local/bin/python3.9`) of the Python scripts in your submission.
-* You may NOT use any third-party packages. Only [built-in Python libraries](https://docs.python.org/3.9/library/) are allowed.
-* You should round your answer to at most 2 decimal places (only if necessary) using the built-in [`round()`](https://docs.python.org/3/library/functions.html#round) function.
+## Awareness
+* You may clone this repository to your local directory. 
+* Make sure your version Python >= 3.7.0.
+* Change to CRLF line terminators for Windows.
+* You need Docker installed on your local machine to run this project in the Docker-based Hadoop environment.
+* The scripts are executed in a Hadoop cluster (Apache Hadoop 3.3.1).
 
-Important notes:
-* You should strictly follow the implementation instructions, the input/output format, and the filename. Implementations that do not follow the correct format will be marked as 0.
-* You may NOT change the filename of the Python scripts and the output files (if any).
-* The time limit for each set of scripts (MapReduce algorithm) is 360 seconds. If your script goes beyond the time limit, it will be terminated and marked as 0.
-* To get full marks, your code must be well-commented.
-
-**Hint:** It is highly recommended to test your implementations in the Docker-based Hadoop environment provided in [Lab3](https://eclass.yorku.ca/pluginfile.php/3465412/mod_folder/content/0/EECS4415-Tutorial3-HDFS.pdf) and [Lab4](https://eclass.yorku.ca/pluginfile.php/3482046/mod_folder/content/0/EECS4415-Tutorial4-MapReduce.pdf). We will use the same environment to evaluate your submission.
-
-## Submission
-You need to zip your repository and submit as one zip file with the name of *project2.zip* on eClass by the due date. The directory structure in *project2.zip* should look like this:
-
-```
-EECS4415_Project_2/
-├─ q1mapper.py
-├─ q1reducer.py
-├─ q2mapper.py
-├─ q2reducer.py
-├─ q3mapper.py
-├─ q3reducer.py
-├─ q4mapper.py
-├─ q4reducer.py
-├─ info.txt
-├─ README.md
-├─ FAQ.md
-├─ Q1.png
-├─ .gitignore
-```
-You should strictly follow the specified directory structure. Implementations that do not follow the correct directory structure will be marked as 0.
-
-**Hint:** Please note that you should not include any output files in your submission. We will execute your codes to generate the outputs and then compare them with the correct answers.
-
-## Evaluation
-Your scripts will be executed in a Hadoop cluster (Apache Hadoop 3.3.1). An automated judge will programmatically evaluate your solution. Please refer to each question for the detailed breakdown of project marks. Please note implementations that do not exactly follow the implementation and submission instructions will be marked as 0 by the judge system.
-
-## Q&As on the Project Description
-Please refer to [QA.md](QA.md).
-
-## Q1. Distributed Construction of the Inverted Index (25%)
-In information retrieval, an inverted index is an index data structure that stores a mapping from words to a collection of documents that they appear in. Your task is to build an inverted index that maps categories (of businesses) to businesses. In other words, given a collection of businesses, an inverted index is a dictionary where each category is associated with a list of the business ids (comma-separated) that belong to that category. See the example below:
+## Q1mapper & Q1Reducer (Distributed Construction of the Inverted Index)
+original file provided by Kaggle ([*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json))
+Given a collection of businesses, an inverted index is a dictionary where each category is associated with a list of the business ids (comma-separated) that belong to that category. See the example below:
 
 ![Inverted index](Q1.png)
 
-In this question, your task is to write two Python scripts (***q1mapper.py*** and ***q1reducer.py***) that implement a MapReduce algorithm for constructing the inverted index. For a given collection of Yelp business data ([*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json)), the algorithm computes the inverted index of the categories to businesses that are **open on the weekend** (Saturdays, Sundays, or both). The output of the MapReduce job should consist of a number of lines in the following format:
+the algorithm computes the inverted index of the categories to businesses that are **open on the weekend** (Saturdays, Sundays, or both). The output of the MapReduce job should consist of a number of lines in the following format:
 ```
 category	[id1, id2, id3, id4]
 ```
-Namely, each line should contain a category and a list of indexes, separated by **a tab character** (\t). The order does not matter.
 
-For example:
-
-```
-Hotels & Travel	['01OmT3PXceLBRsYyWdummy', '023Lc6yStQnKuqymEdummy', '03PyMX1yFb_VYgPw4dummy']
-Canadian (New)	['04L7iPGEirkbMLjCfdummy', '05IsY_MFfDBY7JUXgdummy', '06kN4XJq0TtubaPyqdummy', '07sJIkOlJsO1e1PHtdummy']
-```
-
-Your script should be run as follows:
+Ran the script as follows:
 ```
 $ yarn jar /path-to-jar/hadoop-streaming-3.3.1.jar -files q1mapper.py,q1reducer.py -mapper /path-to-mapper/q1mapper.py -reducer /path-to-reducer/q1reducer.py -input /path-to-json-in-hdfs/yelp_academic_dataset_business.json -output /path-to-directory-in-hdfs/output
 ```
