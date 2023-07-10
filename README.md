@@ -40,7 +40,7 @@ $ yarn jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar -files 
 ```
 
 ## q2mapper & q2reducer (Distributed Computation of Frequencies)
-Given collection of Yelp user data ([*yelp_academic_dataset_user.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_user.json)), the algorithm computes the percent proportion of Yelp accounts created in each month (irrespective of the year). The output of the MapReduce job as follows:
+original file provided by Kaggle ([*yelp_academic_dataset_user.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_user.json)), the algorithm computes the percent proportion of Yelp accounts created in each month (irrespective of the year). The output of the MapReduce job is formatted as follows:
 ```
 month(integer)	proportion%
 ```
@@ -54,28 +54,11 @@ For example:
 $ yarn jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar -files q2mapper.py,q2reducer.py -mapper ./q2mapper.py -reducer ./q2reducer.py -input /yelp_academic_dataset_user.json -output /output
 ```
 
-## Q3. Distributed Computation of the Top-k Reviews (25%)
-Yelp users can vote a review as useful, funny, or cool (UFC). The total number of UFC votes of a review is the sum of useful, funny, and cool votes it has received. For example, a review has received 10 useful votes, 20 funny votes, and 30 cool votes. In this case, the total number of UFC votes is 60 for this review. For a given collection of Yelp review data ([*yelp_academic_dataset_review.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_review.json)), your task is to write two Python scripts (***q3mapper.py*** and ***q3reducer.py***) that implement a MapReduce algorithm to find the **top 4415** reviews with the most UFC votes in descending order (from the most UFC votes to the least). If there are multiple reviews with the same number of UFC votes, they should be sorted in descending order according to the date created (from the most recently created to the least). The output of the MapReduce job should be one line per pair of values separated by **a tab character** (\t) as follows:
+## q3mapper & q3reducer (Distributed Computation of the Top-k Reviews)
+Original file provided by Kaggle ([*yelp_academic_dataset_review.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_review.json)). Yelp users can vote a review as useful, funny, or cool (UFC). The total number of UFC votes of a review is the sum of useful, funny, and cool votes it has received. The output of the MapReduce job is in descending order according to the date created as follows:
 ```
 review_id	#UFC_votes
 ```
-For example:
-```
-AafK4UJ4d75U9bK04dummy	4096
-BbydWwiOFHkB_ajwCdummy	2048
-CcM3BH28X7hLGOEDedummy	1024
-DdG2x0EE7t1aKqSxEdummy	512
-EeG2x0CS7t1aKqSxEdummy	256
-FfG2x0447t1aKqSxEdummy	128
-GgG2x0157t1aKqSxEdummy	64
-HhG2x0157t1aKqSxEdummy	32
-IiG2x0157t1aKqSxEdummy	32
-JjG2x0157t1aKqSxEdummy	16
-KkG2x0157t1aKqSxEdummy	8
-...
-```
-In the example above, the reviews HhG2x0157t1aKqSxEdummy and IiG2x0157t1aKqSxEdummy have the same number of UFC votes. The review HhG2x0157t1aKqSxEdummy comes before IiG2x0157t1aKqSxEdummy because the review HhG2x0157t1aKqSxEdummy was created later than IiG2x0157t1aKqSxEdummy.
-
 Your script should be run as follows:
 ```
 $ yarn jar /path-to-jar/hadoop-streaming-3.3.1.jar -files q3mapper.py,q3reducer.py -mapper /path-to-mapper/q3mapper.py -reducer /path-to-reducer/q3reducer.py -input /path-to-json-in-hdfs/yelp_academic_dataset_review.json -output /path-to-directory-in-hdfs/output
@@ -84,7 +67,6 @@ For example:
 ```
 $ yarn jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar -files q3mapper.py,q3reducer.py -mapper ./q3mapper.py -reducer ./q3reducer.py -input /yelp_academic_dataset_review.json -output /output
 ```
-The original file provided by Kaggle ([*yelp_academic_dataset_review.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_review.json)) will be used for evaluation.
 
 ## Q4. Distributed Generation of Checkin Logs (25%)
 The Yelp check-in data ([*yelp_academic_dataset_checkin.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_checkin.json)) contains the information about check-ins on businesses, in which each line consists of a business ID and a comma-separated list of timestamps for each check-in. In this question, your task is to write two Python scripts (***q4mapper.py*** and ***q4reducer.py***) that implement a MapReduce algorithm to generate check-in logs in a distributed manner. Each line of the check-in logs should contain a unique identifier (UID), the timestamp of the check-in, and the name of the business. The order of the log does not matter. The UID should follow the same format as the Yelp dataset, which is a **random-generated unique string with 22 characters**. The valid characters to construct UID include: uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), underscore (_), and dash (-). The output of the MapReduce job should be one line per triplet (separated by **a tab character**) as follows:
