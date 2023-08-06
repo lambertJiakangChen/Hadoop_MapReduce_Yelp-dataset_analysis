@@ -30,9 +30,6 @@ hdfs dfs -get /output/filename
 ```
 ## q1mapper & q1Reducer (Distributed Construction of the Inverted Index)
 Original file provided by Kaggle ([*yelp_academic_dataset_business.json*](https://www.kaggle.com/yelp-dataset/yelp-dataset/version/3?select=yelp_academic_dataset_business.json))
-Given a collection of businesses, an inverted index is a dictionary where each category is associated with a list of the business ids (comma-separated) that belong to that category. See the example below:
-
-![Inverted index](Q1.png)
 
 the algorithm computes the inverted index of the categories to businesses that are **open on the weekend** (Saturdays, Sundays, or both). The output of the MapReduce job consists of a number of lines as follows:
 ```
